@@ -1,62 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Nereid
+﻿namespace Nereid
 {
-   namespace FinalFrontier
-   {
-      public abstract class Activity 
-      {
-         private static ActivityPool ACTIVITY_POOL = ActivityPool.Instance();
+	namespace FinalFrontier
+	{
+		public abstract class Activity
+		{
+			private static readonly ActivityPool ACTIVITY_POOL = ActivityPool.Instance();
 
-         private readonly String code;
-         private String name;
+			private readonly string code;
+			private string name;
 
-         public Activity(String code, String name)
-         {
-            this.code = code;
-            this.name = name;
-            ACTIVITY_POOL.RegisterActivity(this);
-         }
+			public Activity(string code, string name)
+			{
+				this.code = code;
+				this.name = name;
+				ACTIVITY_POOL.RegisterActivity(this);
+			}
 
-         // name of the activity
-         public virtual String GetName() 
-         {
-            return name;
-         }
+			// name of the activity
+			public virtual string GetName()
+			{
+				return name;
+			}
 
-         // unique code of the activity
-         public String GetCode()
-         {
-            return code;
-         }
+			// unique code of the activity
+			public string GetCode()
+			{
+				return code;
+			}
 
-         public override bool Equals(System.Object right)
-         {
-            if (right == null) return false;
-            Activity cmp = right as Activity;
-            if (cmp == null) return false;
-            return GetCode().Equals(cmp.code);
-         }
+			public override bool Equals(object right)
+			{
+				if (right == null) return false;
+				var cmp = right as Activity;
+				if (cmp == null) return false;
+				return GetCode().Equals(cmp.code);
+			}
 
-         public override int GetHashCode()
-         {
-            return code.GetHashCode();
-         }
+			public override int GetHashCode()
+			{
+				return code.GetHashCode();
+			}
 
-         public abstract String CreateLogBookEntry(LogbookEntry entry);
+			public abstract string CreateLogBookEntry(LogbookEntry entry);
 
-         public override string ToString()
-         {
-            return code;
-         }
+			public override string ToString()
+			{
+				return code;
+			}
 
-         protected void Rename(String name)
-         {
-            this.name = name;
-         }
-      }
-   }
+			protected void Rename(string name)
+			{
+				this.name = name;
+			}
+		}
+	}
 }

@@ -1,109 +1,107 @@
 ﻿using System;
 using UnityEngine;
-using KSP.IO;
 
 namespace Nereid
 {
-   namespace FinalFrontier
-   {
-      public class Ribbon : IComparable<Ribbon>
-      {
-         public static readonly int WIDTH = 120;
-         public static readonly int HEIGHT = 32;
+	namespace FinalFrontier
+	{
+		public class Ribbon : IComparable<Ribbon>
+		{
+			public static readonly int WIDTH = 120;
+			public static readonly int HEIGHT = 32;
 
-         private readonly Texture2D texture;
-         private readonly Achievement achievement;
-         // ribbon that has to be superseded if any
-         private readonly Ribbon supersede;
+			private readonly Achievement achievement;
 
-         // ribbon enabled?
-         private bool enabled = true;
+			// ribbon that has to be superseded if any
+			private readonly Ribbon supersede;
 
-         public Ribbon(String imagePath, Achievement achievement, Ribbon supersede = null)
-         {
-            this.achievement = achievement;
-            this.supersede = supersede;
-            texture = ImageLoader.GetTexture(imagePath);
-            if(texture!=null)
-            {
-               texture.filterMode = FilterMode.Trilinear;
-            }
-            else
-            {
-               // no texture => ribbon disabled
-               Log.Warning("ribbon "+achievement.GetName()+" disabled");
-               enabled = false;
-            }
-         }
+			private readonly Texture2D texture;
 
-         public bool IsEnabled()
-         {
-            return enabled;
-         }
+			// ribbon enabled?
+			private readonly bool enabled = true;
 
-         public int GetWidth()
-         {
-            return WIDTH;
-         }
+			public Ribbon(string imagePath, Achievement achievement, Ribbon supersede = null)
+			{
+				this.achievement = achievement;
+				this.supersede = supersede;
+				texture = ImageLoader.GetTexture(imagePath);
+				if (texture != null) {
+					texture.filterMode = FilterMode.Trilinear;
+				} else {
+					// no texture => ribbon disabled
+					Log.Warning("ribbon " + achievement.GetName() + " disabled");
+					enabled = false;
+				}
+			}
 
-         public int GetHeight()
-         {
-            return HEIGHT;
-         }
+			public int CompareTo(Ribbon right)
+			{
+				return achievement.CompareTo(right.achievement);
+			}
 
-         public Texture2D GetTexture()
-         {
-            return texture;
-         }
+			public bool IsEnabled()
+			{
+				return enabled;
+			}
 
-         public String GetCode()
-         {
-            return achievement.GetCode();
-         }
+			public int GetWidth()
+			{
+				return WIDTH;
+			}
 
-         public Achievement GetAchievement()
-         {
-            return achievement;
-         }
+			public int GetHeight()
+			{
+				return HEIGHT;
+			}
 
-         public Ribbon SupersedeRibbon()
-         {
-            return supersede;
-         }
+			public Texture2D GetTexture()
+			{
+				return texture;
+			}
 
-         public int CompareTo(Ribbon right)
-         {
-            return achievement.CompareTo(right.achievement);
-         }
+			public string GetCode()
+			{
+				return achievement.GetCode();
+			}
 
-         public override bool Equals(System.Object right)
-         {
-            if (right == null) return false;
-            Ribbon cmp = right as Ribbon;
-            // Ribbons are the same, if and only if the achievements are the same
-            return achievement.Equals(cmp.achievement);
-         }
+			public Achievement GetAchievement()
+			{
+				return achievement;
+			}
 
-         public override int GetHashCode()
-         {
-            return achievement.GetHashCode();
-         }
+			public Ribbon SupersedeRibbon()
+			{
+				return supersede;
+			}
 
-         public String GetDescription()
-         {
-            if (achievement.GetDescription() == null) return ""; // this should never happen, but its better to be safe than sorry
-            return achievement.GetDescription();
-         }
+			public override bool Equals(object right)
+			{
+				if (right == null) return false;
+				var cmp = right as Ribbon;
+				// Ribbons are the same, if and only if the achievements are the same
+				return achievement.Equals(cmp.achievement);
+			}
 
-         public String GetName()
-         {
-            return achievement.GetName() + " Ribbon";
-         }
+			public override int GetHashCode()
+			{
+				return achievement.GetHashCode();
+			}
 
-         public override String ToString()
-         {
-            return achievement.GetCode();
-         }
-      }
-   }
+			public string GetDescription()
+			{
+				if (achievement.GetDescription() == null) return ""; // this should never happen, but its better to be safe than sorry
+				return achievement.GetDescription();
+			}
+
+			public string GetName()
+			{
+				return achievement.GetName() + " Ribbon";
+			}
+
+			public override string ToString()
+			{
+				return achievement.GetCode();
+			}
+		}
+	}
 }
